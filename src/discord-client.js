@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, Partials } from 'discord.js';
 
 export async function getDiscordClient() {
   const token = process.env.DISCORD_BOT_TOKEN;
@@ -13,8 +13,11 @@ export async function getDiscordClient() {
     intents: [
       GatewayIntentBits.Guilds, 
       GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent
-    ]
+      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.DirectMessages
+    ],
+    // DM channels aren't cached, so they arrive as partials
+    partials: [Partials.Channel]
   });
 
   try {

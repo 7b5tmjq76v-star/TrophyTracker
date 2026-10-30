@@ -73,3 +73,15 @@ export function getUserTrophies(userId, platform) {
   const cache = getTrophyCache();
   return cache[userId]?.[platform] || {};
 }
+
+// NPSSO renewed through Discord; kept out of .env since the container can't write it
+const PSN_FILE = path.join(DATA_DIR, 'psn.json');
+
+export function getPSNCredentials() {
+  if (!fs.existsSync(PSN_FILE)) return {};
+  return JSON.parse(fs.readFileSync(PSN_FILE, 'utf8'));
+}
+
+export function savePSNCredentials(credentials) {
+  fs.writeFileSync(PSN_FILE, JSON.stringify(credentials, null, 2), { mode: 0o600 });
+}
